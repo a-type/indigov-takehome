@@ -17,3 +17,11 @@ Ended: 11:30 AM
 Began: 2:30 PM
 
 Cleaning up TypeScript errors and other problems from CI, including PNPM install.
+
+Aha! I knew the malformatted email thing was fishy. I was not consuming the header row correctly, so I was seeding it as a normal entry.
+
+Otherwise, spending some time on user feedback for form submission. Goal is to get basic loading, error, and success feedback states in, as well as the requirement for client-side preview of the CSV data.
+
+Paused: 3:00 PM, Resumed 3:20 PM
+
+Email validation is back for the Town Hall dataset after restoring the validation schema. Looking into what I'm sending.

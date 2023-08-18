@@ -1,3 +1,4 @@
+import { ToastProvider, ToastViewport } from "@radix-ui/react-toast";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction } from "@remix-run/node";
 import {
@@ -26,10 +27,13 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <ToastProvider>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+          <ToastViewport className="fixed top-10 right-0 flex flex-col p-5 gap-2 w-[400px] m-0 list-none outline-none z-50" />
+        </ToastProvider>
       </body>
     </html>
   );

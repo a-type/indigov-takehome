@@ -12,10 +12,7 @@ export function getConstituents(): Promise<Constituent[]> {
 const recordSchema = zod.object({
   first_name: zod.string(),
   last_name: zod.string(),
-  // FIXME: seed data contains an invalid email. loosening validation until decision about
-  // how to massage the data.
-  // email: zod.string().email(),
-  email: zod.string(),
+  email: zod.string().email(),
   phone_number: zod.string(),
   street_address_1: zod.string(),
   street_address_2: zod.string().optional(),
@@ -49,6 +46,8 @@ export function loadConstituentsFromFile(
     ],
     skip_empty_lines: true,
     autoParse: true,
+    // 1-indexed, really?
+    from_line: 2,
   });
 
   // using Zod to enforce the correct formatting and types of the incoming data
