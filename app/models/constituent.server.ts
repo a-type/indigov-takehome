@@ -1,5 +1,5 @@
 import { prisma } from "~/db.server";
-import { parse as parseCsv } from "csv/sync";
+import { parse as parseCsv } from "csv-parse/sync";
 import * as zod from "zod";
 import type { Constituent } from "@prisma/client";
 
@@ -51,7 +51,14 @@ export function loadConstituentsFromFile(
   });
 
   // using Zod to enforce the correct formatting and types of the incoming data
-  const parsedRecords = records.map((record) => recordSchema.parse(record));
+  const parsedRecords = records.map((record) => {
+    try {
+      return recordSchema.parse(record);
+    } catch (err) {
+      console.error(`Failed to parse record: ${JSON.stringify(record)}`);
+      throw err;
+    }
+  });
 
   // using a transaction, just kind of habit for bulk operations. normally I'd discuss
   // on a product level what users expect; if they would want to have a partial success

@@ -25,3 +25,15 @@ Otherwise, spending some time on user feedback for form submission. Goal is to g
 Paused: 3:00 PM, Resumed 3:20 PM
 
 Email validation is back for the Town Hall dataset after restoring the validation schema. Looking into what I'm sending.
+
+Sure enough, there's a legitimately invalid email (2nd row). So the validation failure is... valid. I'm not thrilled with the UX of rejecting the whole request for 1 invalid row, but I don't want to run over time to fix it. I assume ya'll will be happy enough if I just do a bit of speculation on how I'd approach it. Probably I'd store any invalid incoming rows in an array during validation, and filter them out of the set before storing in the database. I'd then return a formatted error which indicates the row number and the validation problem for each invalid row, and surface that to the user via a dismissable dialog or directly within the upload dialog.
+
+Speaking of, I added an upload dialog to have a place to display the CSV preview. I'm using `csv-parse` on the backend, so I pulled in its browser ESM bundle. I opted to use a dynamic `import()` inline within the preview component, in part because I haven't set this project up for ESM, but also because there's no reason to load the whole parser library on the client unless there's a CSV to parse.
+
+90 minutes isn't super long, so I have a laundry list of things I'd do next:
+
+- Clean up the styling, a lot. It's super ugly right now, with only functional styles applied.
+- Centralize the display logic for the constituent table. I didn't get around to any client-side validation, so I opted to make the tables pretty free-form and adapt to whatever data they're given. In a real app I would consolidate how constituents are represented to the user and come up with a way to surface invalid rows before submitting for processing.
+- More user-friendly validation errors as mentioned above.
+
+Completed 4:00 PM

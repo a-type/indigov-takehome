@@ -6,13 +6,9 @@ import {
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import {
-  Form,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { Toast } from "~/components/Toast";
+import { UploadDialog } from "~/components/UploadDialog";
 import {
   getConstituents,
   loadConstituentsFromFile,
@@ -55,6 +51,23 @@ export async function loader() {
   return json(await getConstituents());
 }
 
+// FIXME: this concern doesn't belong here; if there were a centralized constituent
+// table component I would probably colocate it there.
+const COLUMN_NAMES = {
+  id: "id",
+  firstName: "First name",
+  lastName: "Last name",
+  email: "Email",
+  phoneNumber: "Phone number",
+  streetAddress1: "Street address",
+  streetAddress2: "Street address (2)",
+  city: "City",
+  state: "State",
+  zipCode: "Zip code",
+  createdAt: "Added at",
+  updatedAt: "Updated at",
+};
+
 export default function Index() {
   const data = useLoaderData<typeof loader>();
 
@@ -63,52 +76,57 @@ export default function Index() {
 
   const uploadResult = useActionData<typeof action>();
 
-  const submissionState = useNavigation();
-
   return (
-    <main className="relative min-h-screen bg-white flex flex-col">
+    <main className="relative h-screen bg-white flex flex-col">
       <h1 className="text-xl mb-4">Constituent Relationship Manager</h1>
       <p className="mb-2">Number of constituents: {data.length}</p>
-      <table className="border-collapse border border-solid border-black">
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th className="text-left" key={column}>
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row) => (
-            <tr key={row.id} className="odd:bg-slate-50">
+      <div className="overflow-auto flex-1-1-0">
+        {/* FIXME: extract this table and the CSV preview table into a centralized display component */}
+        <table className="border-collapse border border-solid border-black">
+          <thead>
+            <tr>
               {columns.map((column) => (
-                <td key={column}>{row[column]}</td>
+                <th className="text-left p-1 whitespace-nowrap" key={column}>
+                  {COLUMN_NAMES[column]}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <Form
-        method="post"
-        encType="multipart/form-data"
-        className="sticky bottom-0 bg-white p-2 w-100% flex flex-row items-center justify-end"
-      >
-        <input type="file" accept=".csv" name="file" />
-        <button type="submit" className="bg-blue-400 px-4 py-1 rounded">
-          {submissionState.state === "submitting"
-            ? "Loading..."
-            : "Upload constituent data"}
-        </button>
-      </Form>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.id} className="odd:bg-slate-50">
+                {columns.map((column) => (
+                  <td key={column} className="p-1">
+                    {row[column]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex-0-0-auto bg-white p-2 w-100% flex flex-row items-center justify-end">
+        {/*
 
-      <Toast
-        open={!!uploadResult}
-        variant={uploadResult?.ok ? "success" : "error"}
-      >
-        {uploadResult?.message ||
-          "An unknown error occurred. Try resubmitting."}
-      </Toast>
+        To be honest I'm a little new to good Remix abstractions for these kinds of things.
+        My goal by supporting an "action" prop here is to make this upload dialog reusable across
+        different pages. But perhaps you'd architect the app to have a single action for uploads
+        which redirects the user back to their previous page, or always lands you on the main
+        constituent list.
+
+        This is an example of an initial implementation I might propose and get team feedback on,
+        and remain open to refactoring down the line if a more intuitive abstraction emerges.
+
+        */}
+        <UploadDialog action="/?index" />
+      </div>
+
+      {!!uploadResult && (
+        <Toast variant={uploadResult.ok ? "success" : "error"}>
+          {uploadResult.message ||
+            "An unknown error occurred. Try resubmitting."}
+        </Toast>
+      )}
     </main>
   );
 }
