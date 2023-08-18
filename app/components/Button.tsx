@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { ComponentProps, forwardRef } from "react";
+import type { ComponentProps } from "react";
+import { forwardRef } from "react";
 
 export interface ButtonProps extends ComponentProps<"button"> {
   loading?: boolean;

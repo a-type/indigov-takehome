@@ -4,6 +4,9 @@ import * as zod from "zod";
 import type { Constituent } from "@prisma/client";
 
 export function getConstituents(): Promise<Constituent[]> {
+  // FIXME: sending back raw database rows isn't a good idea.
+  // I'd set up some kind of known typing for user-facing data and
+  // reusable utilities to map database rows to those types.
   return prisma.constituent.findMany({
     orderBy: { firstName: "asc" },
   });
@@ -80,6 +83,11 @@ export function loadConstituentsFromFile(
           zipCode: record.zip_code,
         },
         update: {
+          // email is omitted for updates, since that's what we're keying on.
+          // while you *could* consolidate these two objects, I tend to default
+          // to explicit separation for database writes. seen too many cases where
+          // somebody modifies a DRY object and then it breaks something else or
+          // writes the wrong data in a particular scenario, etc.
           firstName: record.first_name,
           lastName: record.last_name,
           phoneNumber: record.phone_number,

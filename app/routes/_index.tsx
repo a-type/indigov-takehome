@@ -1,7 +1,6 @@
-import { Constituent } from "@prisma/client";
+import type { Constituent } from "@prisma/client";
+import type { ActionArgs, V2_MetaFunction } from "@remix-run/node";
 import {
-  ActionArgs,
-  V2_MetaFunction,
   json,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
