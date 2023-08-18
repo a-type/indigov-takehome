@@ -11,3 +11,9 @@ I've also reused the same logic to seed the initial database state from the prov
 This basic but ugly functionality is complete. Committing work so far, with remaining time I'll try to polish a bit more.
 
 Ended: 11:30 AM
+
+---
+
+Began: 2:30 PM
+
+Cleaning up TypeScript errors and other problems from CI, including PNPM install.
