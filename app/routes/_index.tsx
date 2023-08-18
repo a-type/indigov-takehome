@@ -122,7 +122,14 @@ export default function Index() {
       </div>
 
       {!!uploadResult && (
-        <Toast variant={uploadResult.ok ? "success" : "error"}>
+        // why a key here? Toast won't unmount if uploadResult changes, so using a key
+        // helps reset the visibility of the toast for multiple submissions. this is
+        // only a quick fix for this problem; in a real app I'd come up with something
+        // more immediately comprehensible.
+        <Toast
+          key={uploadResult.message}
+          variant={uploadResult.ok ? "success" : "error"}
+        >
           {uploadResult.message ||
             "An unknown error occurred. Try resubmitting."}
         </Toast>

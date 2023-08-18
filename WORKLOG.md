@@ -10,7 +10,7 @@ I've also reused the same logic to seed the initial database state from the prov
 
 This basic but ugly functionality is complete. Committing work so far, with remaining time I'll try to polish a bit more.
 
-Ended: 11:30 AM
+Ended: 11:30 AM (50min)
 
 ---
 
@@ -22,7 +22,9 @@ Aha! I knew the malformatted email thing was fishy. I was not consuming the head
 
 Otherwise, spending some time on user feedback for form submission. Goal is to get basic loading, error, and success feedback states in, as well as the requirement for client-side preview of the CSV data.
 
-Paused: 3:00 PM, Resumed 3:20 PM
+Paused: 3:00 PM (80min)
+
+Resumed 3:40 PM
 
 Email validation is back for the Town Hall dataset after restoring the validation schema. Looking into what I'm sending.
 
@@ -36,4 +38,6 @@ Speaking of, I added an upload dialog to have a place to display the CSV preview
 - Centralize the display logic for the constituent table. I didn't get around to any client-side validation, so I opted to make the tables pretty free-form and adapt to whatever data they're given. In a real app I would consolidate how constituents are represented to the user and come up with a way to surface invalid rows before submitting for processing.
 - More user-friendly validation errors as mentioned above.
 
-Completed 4:00 PM
+Completed 4:00 PM (100min)
+
+I don't want to run any more over 90 minutes than I have out of respect for your hiring process. I appreciate not asking for endless hours of my time, although I'm not sure I've had the time to demonstrate the level of polish I usually try to put into my work.

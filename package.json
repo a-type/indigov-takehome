@@ -34,7 +34,6 @@
     "@remix-run/serve": "^1.19.3",
     "bcryptjs": "^2.4.3",
     "classnames": "^2.3.2",
-    "csv": "^6.3.1",
     "csv-parse": "^5.4.0",
     "isbot": "^3.6.12",
     "react": "^18.2.0",

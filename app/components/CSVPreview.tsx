@@ -56,7 +56,7 @@ export function CSVPreview({ file }: CSVPreviewProps) {
         </thead>
         <tbody>
           {preview.map((record) => (
-            <tr key={record.id}>
+            <tr key={record.email}>
               {Object.values(record).map((value) => (
                 <td key={value}>{value}</td>
               ))}
