@@ -16,12 +16,15 @@ export function CSVPreview({ file }: CSVPreviewProps) {
     reader.addEventListener("load", async () => {
       const text = reader.result;
       if (typeof text === "string") {
+        // FIXME: centralize this parsing logic with the backend version;
+        // this requires a bit more effort since the library I grabbed
+        // has different package entry points for browser/node. I'd
+        // probably look for something else that's isomorphic.
         (await csv).parse(
           text,
           {
             columns: true,
             skip_empty_lines: true,
-            // not skipping line 1 here because we want to use it as the header row.
           },
           (err, data) => {
             if (err) {
