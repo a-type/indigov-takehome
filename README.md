@@ -16,6 +16,12 @@ Install dependencies
 pnpm i
 ```
 
+Create a `.env` file
+
+```
+cp .env.example .env
+```
+
 Migrate the database
 
 ```
